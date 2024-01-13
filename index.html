@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kids Book</title>
+    <title>Aria and the Cosmic Thread</title>
     <style>
         body, html {
             margin: 0;
@@ -11,18 +11,22 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background-color: black; /* Or any other background color */
         }
 
         #book-container {
             width: 100%;
             height: 100%;
             position: relative;
+            display: flex;
+            align-items: center; /* Center images vertically */
+            justify-content: center; /* Center images horizontally */
             overflow: hidden;
         }
 
         .book-page {
-            width: 100%;
-            height: 100%;
+            width: 100%; /* Adjust based on your requirements */
+            height: 100%; /* Adjust based on your requirements */
             position: absolute;
             top: 0;
             left: 0;
@@ -33,9 +37,11 @@
         }
 
         .book-page img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain; /* This will ensure that images are not stretched */
         }
 
         .book-page:first-child {
@@ -71,16 +77,20 @@
     const pages = document.querySelectorAll('.book-page');
 
     function showPage(pageIndex, turnPage) {
-        if (pageIndex >= 0 && pageIndex < pages.length) {
-            if (turnPage) {
-                pages[currentPage].classList.add('turn');
-            } else {
-                pages[currentPage].style.display = 'none';
-                pages[currentPage].classList.remove('turn');
-            }
-            currentPage = pageIndex;
-            pages[currentPage].style.display = 'block';
+        if (pageIndex >= pages.length) {
+            pageIndex = 0; // Loop back to first page
+        } else if (pageIndex < 0) {
+            pageIndex = pages.length - 1; // Loop back to last page
         }
+
+        if (turnPage) {
+            pages[currentPage].classList.add('turn');
+        } else {
+            pages[currentPage].style.display = 'none';
+            pages[currentPage].classList.remove('turn');
+        }
+        currentPage = pageIndex;
+        pages[currentPage].style.display = 'block';
     }
 
     let x1 = null;
