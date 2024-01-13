@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Book</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #book-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .book-page {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .book-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-page:first-child {
+            display: block;
+        }
+
+        .turn {
+            transform: rotateY(-180deg);
+        }
+    </style>
+</head>
+<body>
+
+<div id="book-container">
+    <!-- Book pages -->
+    <div class="book-page"><img src="1.jpg" alt="Page 1"></div>
+    <div class="book-page"><img src="2.jpg" alt="Page 2"></div>
+    <div class="book-page"><img src="3.jpg" alt="Page 3"></div>
+    <div class="book-page"><img src="4.jpg" alt="Page 4"></div>
+    <div class="book-page"><img src="5.jpg" alt="Page 5"></div>
+    <div class="book-page"><img src="6.jpg" alt="Page 6"></div>
+    <div class="book-page"><img src="7.jpg" alt="Page 7"></div>
+    <div class="book-page"><img src="8.jpg" alt="Page 8"></div>
+    <div class="book-page"><img src="9.jpg" alt="Page 9"></div>
+    <div class="book-page"><img src="10.jpg" alt="Page 10"></div>
+    <div class="book-page"><img src="11.jpg" alt="Page 11"></div>
+    <div class="book-page"><img src="12.jpg" alt="Page 12"></div>
+    <div class="book-page"><img src="13.jpg" alt="Page 13"></div>
+</div>
+
+<script>
+    let currentPage = 0;
+    const pages = document.querySelectorAll('.book-page');
+
+    function showPage(pageIndex, turnPage) {
+        if (pageIndex >= 0 && pageIndex < pages.length) {
+            if (turnPage) {
+                pages[currentPage].classList.add('turn');
+            } else {
+                pages[currentPage].style.display = 'none';
+                pages[currentPage].classList.remove('turn');
+            }
+            currentPage = pageIndex;
+            pages[currentPage].style.display = 'block';
+        }
+    }
+
+    let x1 = null;
+    document.getElementById('book-container').addEventListener('touchstart', function(event) {
+        x1 = event.touches[0].clientX;
+    }, false);
+
+    document.getElementById('book-container').addEventListener('touchmove', function(event) {
+        if (!x1) {
+            return;
+        }
+
+        let x2 = event.touches[0].clientX;
+        let xDiff = x2 - x1;
+
+        if (xDiff > 0) {
+            showPage(currentPage - 1, true); // Swipe right, previous page
+        } else {
+            showPage(currentPage + 1, true); // Swipe left, next page
+        }
+
+        x1 = null;
+    }, false);
+</script>
+
+</body>
+</html>
